@@ -3,6 +3,7 @@
     <el-container style="height: 100%; border: 1px solid #eee">
 
       <el-header style="text-align: right; font-size: 12px">
+<!--      &lt;!&ndash;  <el-button icon="el-icon-more-outline" style="margin-right: 100% ; background: #1c2b36; border-color: #1c2b36" circle></el-button> -->
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
@@ -23,7 +24,8 @@
                    @close="handleClose"
                    background-color="#1c2b36"
                    text-color="#fff"
-                   active-text-color="#ffd04b"
+                   active-text-color="#1c2b36"
+
           >
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-location-outline"></i>监控中心</template>
@@ -34,7 +36,7 @@
                 <el-menu-item index="1-3" @click="show_it(2)">云交换机</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group title="其他数据">
-                <el-menu-item index="1-4">传感器1</el-menu-item>
+                <el-menu-item index="1-4" @click="show_it(3)">传感器1</el-menu-item>
               </el-menu-item-group>
 
             </el-submenu>
@@ -218,6 +220,11 @@
             </el-footer>
 
           </el-container>
+          <div v-show="controlShow[3]">
+            <temperature
+              :table-data="tableData3" :fresh-data="arrData" ref="tab3" @click="ss">
+            </temperature>
+          </div>
 
         </el-main>
       </el-container>
@@ -232,24 +239,28 @@
 <script>
 
   import $ from 'jquery'
+  import Temperature from './Temperature'
 
   export default {
     name: "Refer",
+    components: {
+      Temperature
+    },
     data() {
       return {
         tableData: [{
           date: '2',
           latitude: '117',
           longitude: '32.9',
-          strformat : "117,32.9"
+          strformat: "117,32.9"
         }, {
           date: '1',
           latitude: '118.9',
           longitude: '31.9',
-          strformat : "118.9,31.9"
+          strformat: "118.9,31.9"
         }], /*Array(4).fill(item),*/
         isShow: true,
-        controlShow: [false, false, true, false, false, false],
+        controlShow: [false, false, true, false, false, false, false, false],
         radio: '2',
         username: sessionStorage.getItem("username"),
         deviceId: '',
@@ -257,9 +268,39 @@
         usrCloud: '',
         deviceList: [],
         countMsg: 0,
-        baiduMap:''
+        baiduMap: '',
+        tableData3: [{
+          date: '2017-05-15',
+          temperature: 18,
+          address: '上海市普陀区金沙江路 1518 弄'
+        },
+          {
+            date: '2017-05-15',
+            temperature: 20,
+            address: '上海市普陀区金沙江路 1518 弄'
+          },
+          {
+            date: '2018-05-13',
+            temperature: 10,
+            address: '上海市普陀区金沙江路 1518 弄'
+          },
+          {
+            date: '2018-05-12',
+            temperature: 30,
+            address: '上海市普陀区金沙江路 1518 弄'
+          },
+          {
+            date: '2018-05-05',
+            temperature: 38,
+            address: '上海市普陀区金沙江路 1518 弄'
+          }
+        ],
+        arrData: [['demo1', 80], ['demo2', 13]],
+        isCollapse:false
       }
-    },
+    }
+
+    ,
     mounted: function () {  // 初始化usrcloud
 
       var callback = {
@@ -274,13 +315,13 @@
         USR_onRcvParsedDevAlarmPush: USR_onRcvParsedDevAlarmPush
       };
 
-      this.$nextTick(()=>{
-        this.baiduMap =  new BMap.Map("allmap");
+      this.$nextTick(() => {
+      /*  this.baiduMap = new BMap.Map("allmap");*/
         this.usrCloud = new UsrCloud();
         this.usrCloud.Usr_Init("clouddata.usr.cn", 8080, 2, callback);  // 定义回掉函数
-        this.usrCloud.USR_Connect(sessionStorage.getItem('username')  , sessionStorage.getItem('md5_password'));
+        this.usrCloud.USR_Connect(sessionStorage.getItem('username'), sessionStorage.getItem('md5_password'));
         console.log("init usrCloud");
-        });
+      });
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -376,6 +417,7 @@
           map.centerAndZoom(point, 15);
           map.enableScrollWheelZoom();
           var marker = new BMap.Marker(point);
+
           function transform(ggPoint) {
             var convertor = new BMap.Convertor();
             var pointArr = [];
@@ -397,7 +439,7 @@
       },
       show_it(index) {
         if (index == 0) {
-          this.initMap(this.tableData[this.tableData.length-1]);
+          this.initMap(this.tableData[this.tableData.length - 1]);
         }
         if (index == 1) {
           this.getDeviceInfo(); // 获取设备列表信息
@@ -429,30 +471,30 @@
       },
       showDataInMap(position) {
 
-        var arrPostion   = position.split(',');
+        var arrPostion = position.split(',');
         var longitude = parseFloat(arrPostion[0]);
-        var latitude =  parseFloat(arrPostion[2]);
-        var str ;
+        var latitude = parseFloat(arrPostion[2]);
+        var str;
         var du, min, second;
-        du = Math.floor(Math.floor(longitude)/100);
-        min = (Math.floor(longitude)%100);
+        du = Math.floor(Math.floor(longitude) / 100);
+        min = (Math.floor(longitude) % 100);
         second = (longitude - Math.floor(longitude));
-        str = "( "+ du + "°" + min + "'" + Math.ceil(second*60) +"''N , ";
-        longitude = du + min/60 + second/60;
-        du = Math.floor(Math.floor(latitude)/100);
-        min = (Math.floor(latitude)%100);
+        str = "( " + du + "°" + min + "'" + Math.ceil(second * 60) + "''N , ";
+        longitude = du + min / 60 + second / 60;
+        du = Math.floor(Math.floor(latitude) / 100);
+        min = (Math.floor(latitude) % 100);
         second = (latitude - Math.floor(latitude));
-        latitude = du + min/60 + second/60;
-        str = str + du + "°" + min + "'" + Math.ceil(second*60) +"''E ) ";
+        latitude = du + min / 60 + second / 60;
+        str = str + du + "°" + min + "'" + Math.ceil(second * 60) + "''E ) ";
         var entry = this.tableData[0];
         entry.date = (new Date()).toLocaleDateString();
         entry.latitude = latitude;
         entry.longitude = longitude;
-        entry.strformat  = str;
+        entry.strformat = str;
         this.tableData.push(entry);
       },
       USR_onRcvRawFromDev(event) {
-        $("#rcvData2").append("<li>devId:" + event.devId + "\tdata:" + buf2HexStr(event.payload) + "Str: "+buf2str(event.payload)+"</li>");
+        $("#rcvData2").append("<li>devId:" + event.devId + "\tdata:" + buf2HexStr(event.payload) + "Str: " + buf2str(event.payload) + "</li>");
         this.countMsg = this.countMsg + 1;
         this.showDataInMap(buf2str(event.payload));
       },
@@ -460,20 +502,21 @@
         console.log(event);
         console.log("丢失连接");
       },
-      unSubscribeDevRaw(){
+      unSubscribeDevRaw() {
         if (this.radio == '1') {
           result = this.usrCloud.USR_UnSubscribeDevRaw(this.deviceId);
-        }else {
+        } else {
           result = this.usrCloud.USR_UnSubscribeUserRaw(sessionStorage.getItem('username'));
         }
+      },
+      ss(){
+        alert("hah")
       }
 
 
     }
 
   }
-
-
 
   /**
    * 连接成功回调（云组态和云交换机共用）
@@ -605,7 +648,6 @@
     background: url("./../assets/blur-bg.jpg") no-repeat center center;
     background-size: cover;
     will-change: transform;
-    z-index: -1;
   }
 
   a {

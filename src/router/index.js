@@ -1,18 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ShowData from '../components/Login'
+import Login from '../components/Login'
 import Refer from '../components/Refer'
-import BaiDuMap from '../components/BaiDuMap'
-Vue.use(Router)
+import Tempture from '../components/Tempture'
+import Temperature from '../components/Temperature'
 
+Vue.use(Router)
 export default new Router({
   mode : 'history',
-  base: '/showdata/',
+  base: '/showdata',
   routes: [
     {
       path: '/',
       name: 'Login',
-      component: ShowData
+      component: Login
     },
     {
 
@@ -21,9 +22,14 @@ export default new Router({
       component: Refer
     },
     {
-      path:'/Refer',
-      name:'BaiDuMap',
-      component: BaiDuMap
+      path:'/Charts',
+      name:'Tempture',
+      component: Tempture
+    },
+    {
+      path:'/Refer/chart',
+      name:'Temperature',
+      component: Temperature
     }
   ]
 })
