@@ -24,7 +24,7 @@
                    @close="handleClose"
                    background-color="#1c2b36"
                    text-color="#fff"
-                   active-text-color="#1c2b36"
+                   active-text-color="#9FCDFF"
 
           >
             <el-submenu index="1">
@@ -295,7 +295,7 @@
             address: '上海市普陀区金沙江路 1518 弄'
           }
         ],
-        arrData: [['demo1', 80], ['demo2', 13]],
+        arrData: [['data', 30], ['data', 28]],
         isCollapse:false
       }
     }
@@ -322,6 +322,9 @@
         this.usrCloud.USR_Connect(sessionStorage.getItem('username'), sessionStorage.getItem('md5_password'));
         console.log("init usrCloud");
       });
+
+ /*     var date = new  Date();
+      console.log(dateFormat("yyyy-MM-dd hh:mm:ss", date));*/
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -332,7 +335,6 @@
         this.usrCloud.USR_DisConnect(); //  退出登陆
         console.log("退出登陆");
         this.$router.push('/');
-
       },
       getDeviceInfo() {
 
@@ -444,6 +446,9 @@
         if (index == 1) {
           this.getDeviceInfo(); // 获取设备列表信息
         }
+        if (index === 3){
+          this.testDate();
+        }
         for (var i = 0; i < this.controlShow.length; i++) {
           this.$set(this.controlShow, i, false);
         }
@@ -487,7 +492,8 @@
         latitude = du + min / 60 + second / 60;
         str = str + du + "°" + min + "'" + Math.ceil(second * 60) + "''E ) ";
         var entry = this.tableData[0];
-        entry.date = (new Date()).toLocaleDateString();
+        var date = new Date();
+        entry.date = dateFormat("yyyy-MM-dd hh:mm:ss",date); // 格式化时间
         entry.latitude = latitude;
         entry.longitude = longitude;
         entry.strformat = str;
@@ -511,6 +517,17 @@
       },
       ss(){
         alert("hah")
+      },
+      testDate(){
+        var self = this;
+        setInterval(()=>{
+          var date = new Date();
+          this.arrData.push([dateFormat("hh:mm:ss",date),Math.ceil(Math.random()*10+20)]);
+          if (this.arrData.length >= 8){
+            this.arrData.shift();
+          }
+          self.$refs["tab3"].drawfreshTable();
+        },3000)
       }
 
 
@@ -628,11 +645,27 @@
    */
 
 
-  /*------  订阅 */
-
-  function connect() {
-
+  function dateFormat(fmt,date){
+    var o ={
+      "M+" : date.getMonth() +1,
+      "d+" : date.getDate(),
+      "h+" : date.getHours(),
+      "m+" : date.getMinutes(),
+      "s+" : date.getSeconds(),
+      "q+" : Math.floor((date.getMonth()+3)/3),
+      "S"  : date.getMilliseconds()
+    };
+    if (/(y+)/.test(fmt))
+      fmt = fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+      if(new RegExp("("+ k +")").test(fmt))
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    return fmt;
   }
+
+
+
+
 
 
 </script>

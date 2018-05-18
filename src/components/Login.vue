@@ -1,6 +1,7 @@
 <template>
 
   <div class="whole">
+    <canvs-background class="canvs-background"></canvs-background>
     <header>
       <div class="webName"></div>
     </header>
@@ -42,9 +43,13 @@
 
 
   import crypto from 'crypto'
+  import CanvsBackground from './CanvsBackground'
 
   export default {
     name: "Login",
+    components:{
+      CanvsBackground
+    },
     data() {
       return {
         studentNum: "",
@@ -141,7 +146,7 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    background: url("./../assets/blur-bg.jpg") no-repeat center center;
+   /* background: url("./../assets/blur-bg.jpg") no-repeat center center;*/
     background-size: cover;
     will-change: transform;
     z-index: -1;
@@ -236,6 +241,13 @@
     -moz-transition: 0.5s all;
     -o-transition: 0.5s all;
     text-decoration: none;
+  }
+  .canvs-background{
+    z-index: -1;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
   }
 
   footer {

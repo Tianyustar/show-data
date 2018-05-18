@@ -54,7 +54,7 @@
             :chartData="chartData"  chartType="line"   unit=" °C"  y-text="温度" ref="line1"
             :title-text="title"
             :sub-text="subtext"
-            :height="400"
+            :height="380"
             :width="700">
           </e-charts>
         </el-card>
@@ -64,7 +64,7 @@
           :line-color="lineColor"
           :title-text="title"
           :sub-text="subtext"
-          :height="400"
+          :height="380"
           :width="700">
         </e-charts>
       </el-card>
