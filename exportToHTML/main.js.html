@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>main.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); font-weight: bold; }
+.s3 { color: rgb(106,135,89); }
+.s4 { color: rgb(204,120,50); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+main.js</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">// The Vue build version to load with the `import` command</span><span class="s1"> 
+</span><span class="s0">// (runtime-only or standalone) has been set in webpack.base.conf with an alias.</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">Vue from </span><span class="s3">'vue'</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">App from </span><span class="s3">'./App'</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">axios from </span><span class="s3">'axios'</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">router from </span><span class="s3">'./router'</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s3">'element-ui/lib/theme-chalk/index.css'</span><span class="s4">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">ElementUI from </span><span class="s3">'element-ui'</span><span class="s4">;</span><span class="s1"> 
+ 
+ 
+Vue.use(ElementUI)</span><span class="s4">;</span><span class="s1"> 
+Vue.prototype.$axios = axios</span><span class="s4">;</span><span class="s1"> 
+axios.defaults.baseURL = </span><span class="s3">''</span><span class="s4">;</span><span class="s1"> 
+axios.defaults.headers.post[</span><span class="s3">'Content-Type'</span><span class="s1">] = </span><span class="s3">'application/x-www-form-urlencoded'</span><span class="s4">;</span><span class="s1"> 
+Vue.config.productionTip = </span><span class="s2">false</span><span class="s4">;</span><span class="s1"> 
+ 
+</span><span class="s0">/* eslint-disable no-new */</span><span class="s1"> 
+</span><span class="s2">new </span><span class="s1">Vue({ 
+  el: </span><span class="s3">'#app'</span><span class="s4">,</span><span class="s1"> 
+  router</span><span class="s4">,</span><span class="s1"> 
+  components: { App }</span><span class="s4">,</span><span class="s1"> 
+  template: </span><span class="s3">'&lt;App/&gt;'</span><span class="s1"> 
+}) 
+</span></pre>
+</body>
+</html>

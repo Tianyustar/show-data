@@ -432,7 +432,6 @@
                 marker.setLabel(label); //添加百度label
                 map.setCenter(data.points[0]);
               }
-
             })
           }
 
